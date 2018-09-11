@@ -47,6 +47,33 @@ app.delete('/tasks/:taskId', (request, response) => {
     }
 });
 
+app.put('/tasks/:taskId', (request, response) => {
+    const task = tasks.find(t => t.id == request.params.taskId);
+    const { body } = request;
+    
+    if (task) {
+        if(body.title == '' || body.title == undefined){
+            body.title = task.title;
+        }
+        if(body.resume == '' || body.resume == undefined){
+            body.resume = task.resume;
+        }
+        if(body.isDone == '' || body.isDone == undefined){
+            body.isDone = task.isDone;
+        }
+        if(body.isPriority == '' || body.isPriority == undefined){
+            body.isPriority = task.isPriority;
+        }
+
+        response.send(task);
+    } else {
+        response.status(404);
+        response.send();
+    }
+});
+
+
+
 app.listen(3000, () => {
     console.log("Server running on port 3000");
 });
